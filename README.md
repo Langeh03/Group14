@@ -2,7 +2,7 @@
 A mobile app project for CEF 440: internet programming and mobile programming.
 course Instructor: Dr Nkemeni Valerie
 
-#Visit the master branch to view code implementation
+# Visit the master branch to view code implementation
 
 
 # Group memebers
