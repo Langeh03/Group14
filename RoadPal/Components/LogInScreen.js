@@ -3,6 +3,7 @@ import { Text, View, Image, StyleSheet, useWindowDimensions, ScrollView } from '
 import logo from '../assets/logo.jpg';
 import CustomInput from '../custom/CustomInput';
 import CustomButton from '../custom/CustomButton';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -11,17 +12,20 @@ const LogInScreen = () => {
     const [password, setPassword] = useState('');
 
     const {height} = useWindowDimensions();
+    const navigation = useNavigation();
 
-    const onSignInPress = () => {
-        console.warn("sign in");
-    }
+    const onLogInPress = () => {
+       //validate user
+
+       navigation.navigate('HomeScreen');
+    };
 
     const onForgotPasswordPress = () => {
-        console.warn("sign in");
-    }
+        navigation.navigate('ForgotPassword');
+    };
 
     const onSignUpPress = () => {
-        console.warn("sign in");
+      navigation.navigate('SignUp');
     }
 
     return (
@@ -33,7 +37,7 @@ const LogInScreen = () => {
         <CustomInput  placeholder="Password" value={password} setValue={setPassword}secureTextEntry={true} />
     
 
-        <CustomButton  text="Sign In" onPress={onSignInPress} />
+        <CustomButton  text="Log In" onPress={onLogInPress} />
         <CustomButton  text="Forgot password" onPress={onForgotPasswordPress} type="Tertiary"/>
         <CustomButton  text="Don't have an account? Create one" onPress={onSignUpPress} type="Tertiary"/>
       </View>

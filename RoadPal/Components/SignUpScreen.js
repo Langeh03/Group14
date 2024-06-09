@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Text, View, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import CustomInput from '../custom/CustomInput';
 import CustomButton from '../custom/CustomButton';
+import { useNavigation } from '@react-navigation/native';
 
 const SignUpScreen = () => {
 
@@ -10,18 +11,16 @@ const SignUpScreen = () => {
     const [password, setPassword] = useState('');
     const [passwordRepeat, setPasswordRepeat] = useState('');
 
-
-    const onSignInPress = () => {
-        console.warn("sign in");
-    }
-
-    const onForgotPasswordPress = () => {
-        console.warn("sign in");
-    }
+    const navigation = useNavigation();
 
     const onSignUpPress = () => {
-        console.warn("sign in");
-    }
+        navigation.navigate('ConfirmEmail');
+    };
+
+
+    const onLogInPress = () => {
+        navigation.navigate('LogIn');
+    };
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -34,9 +33,9 @@ const SignUpScreen = () => {
           <CustomInput placeholder="Repeat Password" value={passwordRepeat} setValue={setPasswordRepeat} secureTextEntry={true} />
       
   
-          <CustomButton  text="Sign In" onPress={onSignInPress} />
-          <CustomButton  text="Forgot password" onPress={onForgotPasswordPress} type="Tertiary"/>
-          <CustomButton  text="Don't have an account? Create one" onPress={onSignUpPress} type="Tertiary"/>
+          <CustomButton  text="Sign Up" onPress={onSignUpPress} />
+         
+          <CustomButton  text="Have an account? Log In" onPress={onLogInPress} type="Tertiary"/>
         </View>
         </ScrollView>
     )

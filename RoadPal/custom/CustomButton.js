@@ -23,12 +23,19 @@ const CustomButton = ( {onPress, text, type="Primary"}) => {
     container_Primary:{
         backgroundColor: 'blue',
     },
+    container_Secondary:{
+        borderColor: 'blue',
+        borderWidth: 2,
+    },
     container_Tertiary:{
 
     },
     text: {
         fontWeight: 'bold',
         color: 'white',
+    },
+    text_Secondary:{
+        color: 'blue',
     },
     text_Tertiary:{
         color: 'grey',
