@@ -24,7 +24,7 @@ const ConfirmEmailScreen = () => {
     };
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.show}>
         <View style={styles.root}>
          <Text style={styles.title}>Confirm your email</Text>
   
@@ -50,6 +50,10 @@ const ConfirmEmailScreen = () => {
   }
 
   const styles = StyleSheet.create({
+    show:{
+        backgroundColor: '#AAF0E5',
+        height: '100%',
+      },
     root: {
         alignItems: 'center',
         padding: 20,

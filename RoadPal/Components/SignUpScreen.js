@@ -23,7 +23,7 @@ const SignUpScreen = () => {
     };
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.show} >
         <View style={styles.root}>
          <Text style={styles.title}>Create an Account</Text>
          <Text style={styles.mini}>Please enter your information below</Text>
@@ -52,6 +52,10 @@ const SignUpScreen = () => {
   }
 
   const styles = StyleSheet.create({
+    show:{
+      backgroundColor: '#AAF0E5',
+      height: '100%',
+    },
     root: {
         alignItems: 'center',
         padding: 20,
@@ -89,11 +93,13 @@ const SignUpScreen = () => {
       flexDirection: 'row',
       justifyContent:'space-around',
       marginTop: 35,
+      position: 'relative',
+      left: '24%',
     },
     special_2:{
       marginTop: 18,
-      marginLeft: '15%',
-      marginRight: '-11%',
+      marginLeft: '10%',
+      marginRight: '2%',
       fontSize: 19,
     },
   });

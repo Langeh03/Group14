@@ -29,7 +29,7 @@ const LogInScreen = () => {
     }
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.show}>
       <View style={styles.root}>
          <Image source={Logo} style={[styles.logo, {height: height * 0.3}]} resizeMode='contain' /> 
 
@@ -65,6 +65,10 @@ const LogInScreen = () => {
 
 
   const styles = StyleSheet.create({
+    show:{
+      backgroundColor: 'rgba(39,162,142,0.6)',
+      height: '100%',
+    },
     root: {
         alignItems: 'center',
         padding: 20,
@@ -87,7 +91,7 @@ const LogInScreen = () => {
     }, 
     container_3:{
       marginTop: 30,  
-      marginLeft: '30%',
+      marginLeft: '35%',
     }, 
     title_2:{
       fontSize: 34,
@@ -109,8 +113,8 @@ const LogInScreen = () => {
     },
     special_2:{
       marginTop: 17.5,
-      marginLeft: '-27%',
-      marginRight: '-6%',
+      marginLeft: '-7%',
+      marginRight: '17%',
       fontSize: 19,
     },
   });

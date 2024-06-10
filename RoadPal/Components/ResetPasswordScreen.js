@@ -22,7 +22,7 @@ const ResetPasswordScreen = () => {
     }
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.show}>
         <View style={styles.root}>
          <Text style={styles.title}>Reset your password</Text>
   
@@ -44,6 +44,10 @@ const ResetPasswordScreen = () => {
   }
 
   const styles = StyleSheet.create({
+    show:{
+      backgroundColor: '#AAF0E5',
+      height: '100%',
+    },
     root: {
         alignItems: 'center',
         padding: 20,

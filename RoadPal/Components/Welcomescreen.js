@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 const {height} = Dimensions.get("window");
+const {width} = Dimensions.get("window");
 
 const Welcomescreen = () => {
 
@@ -22,42 +23,55 @@ const Welcomescreen = () => {
     };
 
     return (
-      <LinearGradient style={styles.show}
-       colors={["#FFFFFF", "#AAF0E5"]} >
+      <SafeAreaView style={styles.show} >
 
         <View style={styles.root}>
-        <ImageBackground style={{height: height/2.5,}} resizeMode='contain'
-        source={require("../assets/welcomescreen_image.jpg")}/>
+        <ImageBackground style={styles.image} resizeMode='contain'
+        source={require("../assets/welcome3.jpg")}/>
        </View>
 
        <View  style={styles.root}>
        <Text style={styles.text_1}>Welcome to RoadPal</Text>
-       <Text style={styles.text_2}>Where your safety is our primary concern</Text>
+       <Text style={styles.text_2}>Get notifications about road signs and conditions in your area</Text>
        </View>
 
       <View style={styles.root_2}>
-      <CustomButton  text="Log In" onPress={onLogInPress} type="W"/>
-      <CustomButton  text="Sign Up" onPress={onSignUpPress} type='W'/>
+      <CustomButton  text="Get Started" onPress={onSignUpPress} type="W"/>
+      <View style={{marginLeft:'7%'}}>
+      <CustomButton  text="Already have an account? Login" onPress={onLogInPress} type='Tertiary'/>
       </View>
-       </LinearGradient>
+      
+      </View>
+
+       </SafeAreaView>
     
     )
   }
 
   const styles = StyleSheet.create({
-     show:{
-       height: '100%',
-     },
+    show:{
+      backgroundColor: 'white',
+      height: '100%',
+    },
     root: {
       paddingHorizontal: 14,
-      paddingTop: 54,
+      position: 'relative',
+      top: -560,
       
+    },
+    image:{
+      width: width,
+      height: height,
+      position: 'relative',
+      top: 235,
+      left: -15,
     },
     root_2:{
       paddingHorizontal: 14,
-      paddingTop: 34,
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
+      position: 'relative',
+      top: -450,
+      left: '25%',
+      
     },
     text_1:{
         fontSize: 44,

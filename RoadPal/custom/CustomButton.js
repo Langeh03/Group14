@@ -35,13 +35,13 @@ const CustomButton = ( {onPress, text, type="Primary"}) => {
         borderWidth: 2,
     },
     container_Tertiary:{
-        width: 200,
+        width: 300,
         height: 60,
         padding: 15,
         borderRadius: 50,
         marginVertical: 5,
         alignItems: 'center',
-        marginLeft:-24,
+        marginLeft:'-28%',
         
     },
     text: {
