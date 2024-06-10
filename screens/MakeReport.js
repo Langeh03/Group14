@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CustomDropdown from "../components/CustomDropdown";
+import CustomAppbar from "../components/CustomAppbar";
 
 import {
   View,
@@ -29,58 +30,69 @@ const MakeReport = ({ navigation }) => {
     navigation.navigate("Reports");
   };
 
-  return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.title}>Report a road condition</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Region"
-          value={field1}
-          onChangeText={setField1}
+    return (
+      <View style={styles.root}>
+        <CustomAppbar
+          leadingIcon="arrow-back"
+          onLeadingPress={() => navigation.goBack()}
+          title=""
+          endElements={<></>}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Town"
-          value={field2}
-          onChangeText={setField2}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Location"
-          value={field3}
-          onChangeText={setField3}
-        />
-        <CustomDropdown
-          style={styles.input}
-          options={options}
-          onSelect={(option) => setSelectedOption(option)}
-          selectedOption={selectedOption}
-        />
-        <TextInput
-          style={[styles.input, styles.messageBox]}
-          placeholder="Add details"
-          value={feedback}
-          onChangeText={setFeedback}
-          multiline
-          numberOfLines={4}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
-  );
+        <View style={styles.container}>
+          <ScrollView contentContainerStyle={styles.contentContainer} >
+            <Text style={styles.title}>Report a road condition</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Region"
+              value={field1}
+              onChangeText={setField1}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Town"
+              value={field2}
+              onChangeText={setField2}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Location"
+              value={field3}
+              onChangeText={setField3}
+            />
+            <CustomDropdown
+              style={styles.input}
+              options={options}
+              onSelect={(option) => setSelectedOption(option)}
+              selectedOption={selectedOption}
+            />
+            <TextInput
+              style={[styles.input, styles.messageBox]}
+              placeholder="Add details"
+              value={feedback}
+              onChangeText={setFeedback}
+              multiline
+              numberOfLines={4}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      </View>
+    );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingHorizontal: 20,
-        paddingTop: 60,
     
-  },
+    paddingHorizontal: 20,
+        paddingTop: 20,
+    
+    },
+    root: {
+        flex: 1,backgroundColor: "#fff",
+    },
   contentContainer: {
     paddingBottom: 20,
   },

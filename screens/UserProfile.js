@@ -3,6 +3,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import CustomButton from "../components/CustomButton";
+import CustomAppbar from "../components/CustomAppbar";
 
 const UserProfile = ({ navigation }) => {
   const user = {
@@ -17,54 +18,66 @@ const UserProfile = ({ navigation }) => {
   const defaultImage = "https://via.placeholder.com/100"; // Replace with your default image URL
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={{
-          uri: user.imageUrl ? user.imageUrl : defaultImage,
-        }}
-        style={styles.avatar}
-        onError={() => (user.imageUrl = defaultImage)} // Fallback to default image if there's an error
-      />
-      <View style={styles.infoContainer}>
-        <View style={styles.row}>
-          <Text style={styles.title}>Name</Text>
-          <Text style={styles.content}>{user.name}</Text>
+      
+          <View style={styles.root}>
+        <CustomAppbar
+          leadingIcon="arrow-back"
+          onLeadingPress={() => navigation.goBack()}
+          title="User profile"
+          endElements={<></>}
+        />
+        <View style={styles.container}>
+          <Image
+            source={{
+              uri: user.imageUrl ? user.imageUrl : defaultImage,
+            }}
+            style={styles.avatar}
+            onError={() => (user.imageUrl = defaultImage)} // Fallback to default image if there's an error
+          />
+          <View style={styles.infoContainer}>
+            <View style={styles.row}>
+              <Text style={styles.title}>Name</Text>
+              <Text style={styles.content}>{user.name}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.title}>Username</Text>
+              <Text style={styles.content}>{user.username}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.title}>Email</Text>
+              <Text style={styles.content}>{user.email}</Text>
+            </View>
+          </View>
+          {/* <CustomButton
+            title="Edit Profile"
+                  onPress={() => navigation.navigate("EditUserProfile", { user, uri })}
+          /> */}
+        
+          <CustomButton
+            title="Edit Profile"
+            onPress={() =>
+              navigation.navigate("EditUserProfile", {
+                user,
+                imageUrl: user.imageUrl,
+              })
+            }
+          />
         </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>Username</Text>
-          <Text style={styles.content}>{user.username}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>Email</Text>
-          <Text style={styles.content}>{user.email}</Text>
-        </View>
-      </View>
-      {/* <CustomButton
-        title="Edit Profile"
-              onPress={() => navigation.navigate("EditUserProfile", { user, uri })}
-      /> */}
-     
-      <CustomButton
-        title="Edit Profile"
-        onPress={() =>
-          navigation.navigate("EditUserProfile", {
-            user,
-            imageUrl: user.imageUrl,
-          })
-        }
-      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+    root: {
+        flex: 1,backgroundColor: "#f5f5f5",
+    },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
+    
     padding: 20,
-  },
+  }, 
   avatar: {
     width: 100,
     height: 100,

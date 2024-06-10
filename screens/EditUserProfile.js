@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 import * as ImagePicker from "expo-image-picker";
+import CustomAppbar from "../components/CustomAppbar";
 
 const EditUserProfile = ({ route, navigation }) => {
   const { user, imageUrl } = route.params;
@@ -40,7 +41,14 @@ const EditUserProfile = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  return (
+    return (
+       <View style={styles.root}>
+        <CustomAppbar
+          leadingIcon="arrow-back"
+          onLeadingPress={() => navigation.goBack()}
+          title=""
+          endElements={<></>}
+        />
     <View style={styles.container}>
       <TouchableOpacity
         onPress={handleChooseImage}
@@ -83,16 +91,20 @@ const EditUserProfile = ({ route, navigation }) => {
         </View>
       </View>
       <CustomButton title="Done" onPress={handleSubmit} />
-    </View>
+            </View>
+            </View>
   );
 };
 
 const styles = StyleSheet.create({
+    root: {
+        flex: 1,backgroundColor: "#f5f5f5",
+    },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
+    
     padding: 20,
   },
   imageContainer: {

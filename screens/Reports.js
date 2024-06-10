@@ -8,7 +8,7 @@ import {
   Text,
 } from "react-native";
 
-import CustomSearchButton from "../components/CustomSearchButton";
+import CustomSearch from "../components/CustomSearch";
 import ReportCard from "../components/ReportCard";
 
 function Reports({ navigation }) {
@@ -63,7 +63,7 @@ function Reports({ navigation }) {
         </View>
       ) : (
         <>
-          <CustomSearchButton onPress={handleSearchPress} />
+          <CustomSearch onPress={handleSearchPress} />
           <ScrollView
             contentContainerStyle={styles.contentContainer}
             bounces={true}
