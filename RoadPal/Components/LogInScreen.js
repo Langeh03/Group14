@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import { Text, View, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
-import logo from '../assets/logo.jpg';
 import CustomInput from '../custom/CustomInput';
 import CustomButton from '../custom/CustomButton';
 import { useNavigation } from '@react-navigation/native';
+// import Logo from '../assets/frame.svg'
 
 
 
@@ -31,7 +31,9 @@ const LogInScreen = () => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.root}>
-        <Image source={logo} style={[styles.logo, {height: height * 0.3}]} resizeMode='contain' />
+        {/* <Image source={} style={[styles.logo, {height: height * 0.3}]} resizeMode='contain' /> */}
+
+      
 
         <CustomInput placeholder="UserName" value={username} setValue={setUsername} />
         <CustomInput  placeholder="Password" value={password} setValue={setPassword}secureTextEntry={true} />

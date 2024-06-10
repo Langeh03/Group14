@@ -1,30 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import LogInScreen from './Components/LogInScreen';
-import SignUpScreen from './Components/SignUpScreen';
-import ConfirmEmailScreen from './Components/ConfirmEmailScreen';
-import ForgotPasswordScreen from './Components/ForgotPasswordScreen';
-import ResetPasswordScreen from './Components/ResetPasswordScreen';
+import { StyleSheet, Text } from 'react-native';
 import Navigation from './Components/Navigation';
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/* <LogInScreen/> */}
-      {/* <SignUpScreen/> */}
-      {/* <ConfirmEmailScreen/> */}
-      {/* <ForgotPasswordScreen/> */}
-      {/* <ResetPasswordScreen/> */}
-      <Navigation/>
-      <StatusBar style="auto" />
-    </View>
+    <LinearGradient 
+        style={styles.container} 
+        colors={["#FFFFFF", "#AAF0E5"]}
+        start={[0.8, 0.1]}>
+          <Text>Hello</Text>
+        <Navigation/>
+        <StatusBar style="auto" />
+   </LinearGradient>  
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'pink',
-
+    // backgroundColor: '#ffff',
+    // alignItems: 'center',
+    // elevation: -5,
+    
   },
+
 });

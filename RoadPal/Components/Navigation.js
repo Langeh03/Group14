@@ -8,7 +8,9 @@ import SignUpScreen from './SignUpScreen';
 import ConfirmEmailScreen from './ConfirmEmailScreen';
 import ForgotPasswordScreen from './ForgotPasswordScreen';
 import ResetPasswordScreen from './ResetPasswordScreen';
-import HomeScreen from './HomeScreen'
+import HomeScreen from './HomeScreen';
+import Welcomescreen from './Welcomescreen'
+
 
 
 const Stack = createNativeStackNavigator();
@@ -16,7 +18,9 @@ const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
       <NavigationContainer>
-       <Stack.Navigator screenOptions={{headerShown: false}}>
+       
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Welcomescreen" component={Welcomescreen} />  
         <Stack.Screen name="LogIn" component={LogInScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
