@@ -1,13 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, StyleSheet, Alert } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import CustomButton from "../components/CustomButton";
+import * as ImagePicker from "expo-image-picker";
 
 const EditUserProfile = ({ route, navigation }) => {
-  const { user } = route.params;
+  const { user, imageUrl } = route.params;
 
   const [name, setName] = useState(user.name);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleChooseImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setSelectedImage(result.uri);
+    }
+  };
 
   const handleSubmit = () => {
     Alert.alert(
@@ -19,13 +42,16 @@ const EditUserProfile = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{
-          uri: "https://images.pexels.com/photos/1599930/pexels-photo-1599930.jpeg?cs=srgb&dl=man-profile-1599930.jpg&fm=jpg",
-        }} // Replace with actual image URL or local asset
-        style={styles.avatar}
-      />
-      <Text style={styles.editImage}>Edit profile image</Text>
+      <TouchableOpacity
+        onPress={handleChooseImage}
+        style={styles.imageContainer}
+      >
+        <Image
+          source={{ uri: selectedImage || imageUrl }}
+          style={styles.avatar}
+        />
+        <Text style={styles.editImage}>Edit profile image</Text>
+      </TouchableOpacity>
       <View style={styles.infoContainer}>
         <View style={styles.row}>
           <Text style={styles.title}>Name</Text>
@@ -69,28 +95,32 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
     padding: 20,
   },
+  imageContainer: {
+    alignItems: "center",
+    marginBottom: 30,
+  },
   editImage: {
     fontSize: 18,
     fontWeight: "medium",
     color: "#35989D",
-    marginBottom: 30,
+    textDecorationLine: "underline",
+    marginTop: 10,
   },
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   infoContainer: {
     width: "100%",
-    marginBottom: 20,
+    marginBottom: 40,
   },
   row: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
     paddingVertical: 10,
-    marginBottom: 10,
   },
   title: {
     width: 90,
@@ -99,7 +129,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 40,
+    height: 48,
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,
