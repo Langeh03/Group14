@@ -12,13 +12,11 @@ import HomeScreen from './HomeScreen';
 import Welcomescreen from './Welcomescreen'
 
 
-
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
     return (
       <NavigationContainer>
-       
         <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="Welcomescreen" component={Welcomescreen} />  
         <Stack.Screen name="LogIn" component={LogInScreen} />

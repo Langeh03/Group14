@@ -3,6 +3,7 @@ import { Dimensions, ImageBackground, Text, TouchableOpacity, View, StyleSheet }
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomButton from '../custom/CustomButton';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const {height} = Dimensions.get("window");
@@ -21,9 +22,10 @@ const Welcomescreen = () => {
     };
 
     return (
-      <SafeAreaView>
+      <LinearGradient style={styles.show}
+       colors={["#FFFFFF", "#AAF0E5"]} >
+
         <View style={styles.root}>
-       
         <ImageBackground style={{height: height/2.5,}} resizeMode='contain'
         source={require("../assets/welcomescreen_image.jpg")}/>
        </View>
@@ -37,16 +39,19 @@ const Welcomescreen = () => {
       <CustomButton  text="Log In" onPress={onLogInPress} type="W"/>
       <CustomButton  text="Sign Up" onPress={onSignUpPress} type='W'/>
       </View>
-      </SafeAreaView>
+       </LinearGradient>
     
     )
   }
 
   const styles = StyleSheet.create({
+     show:{
+       height: '100%',
+     },
     root: {
       paddingHorizontal: 14,
       paddingTop: 54,
-
+      
     },
     root_2:{
       paddingHorizontal: 14,
