@@ -46,7 +46,7 @@ const ResetPasswordScreen = () => {
   const styles = StyleSheet.create({
     root: {
         alignItems: 'center',
-        padding: 40,
+        padding: 20,
 
     },
     title:{
@@ -54,21 +54,21 @@ const ResetPasswordScreen = () => {
          fontWeight: 'bold',
          color: 'black',
          marginTop: 100,
-         marginBottom: 20,
+         marginBottom: 30,
     },
     input_text:{
       fontSize: 19,
       fontWeight: '300',
       color: 'black',
       marginTop: 10,
-      marginLeft: -140,
+      marginLeft: '-41%',
     },
     input_text_2:{
       fontSize: 19,
       fontWeight: '300',
       color: 'black',
       marginTop: 10,
-      marginLeft: -165,
+      marginLeft: '-51%',
     },
     button:{
       marginTop: 30,

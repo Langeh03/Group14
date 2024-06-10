@@ -57,7 +57,7 @@ const ForgotPasswordScreen = () => {
       fontWeight: '300',
       color: 'black',
       marginTop: 40,
-      marginLeft: -290,
+      marginLeft: '-79%',
     },
     button:{
       marginTop: 30,

@@ -72,7 +72,7 @@ const SignUpScreen = () => {
     },
     input:{
       marginTop: 20,
-      marginLeft: 40,
+      marginLeft: '8%',
 
     },  
     input_text:{
@@ -92,8 +92,8 @@ const SignUpScreen = () => {
     },
     special_2:{
       marginTop: 18,
-      marginLeft: 80,
-      marginRight: -42,
+      marginLeft: '15%',
+      marginRight: '-11%',
       fontSize: 19,
     },
   });

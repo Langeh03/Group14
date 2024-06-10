@@ -33,8 +33,10 @@ const ConfirmEmailScreen = () => {
        
 
       
-  
-          <CustomButton  text="Confirm" onPress={onConfirmPress} />
+            <View style={styles.special}>
+            <CustomButton  text="Confirm" onPress={onConfirmPress} />
+            </View>
+          
          
          <View style={styles.root_2}>
          <CustomButton  text="Resend Code" onPress={onResendPress} type="Secondary"/>
@@ -64,14 +66,18 @@ const ConfirmEmailScreen = () => {
         fontWeight: '300',
         color: 'black',
         marginTop: 30,
-        marginLeft: -140,
+        marginLeft: '-40%',
       },
     root_2:{
         paddingHorizontal: 14,
         paddingTop: 34,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        marginTop: -23,
       },
+      special:{
+        marginTop: 25,
+      }
   });
 
 export default ConfirmEmailScreen

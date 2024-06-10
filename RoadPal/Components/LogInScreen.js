@@ -80,14 +80,14 @@ const LogInScreen = () => {
     },
     container:{
       marginTop: 20,
-      marginLeft: -160,
+      marginLeft: '-44%',
     }, 
     container_2:{
       marginTop: 40,  
     }, 
     container_3:{
       marginTop: 30,  
-      marginLeft: 110,
+      marginLeft: '30%',
     }, 
     title_2:{
       fontSize: 34,
@@ -109,8 +109,8 @@ const LogInScreen = () => {
     },
     special_2:{
       marginTop: 17.5,
-      marginLeft: -75,
-      marginRight: -30,
+      marginLeft: '-27%',
+      marginRight: '-6%',
       fontSize: 19,
     },
   });
