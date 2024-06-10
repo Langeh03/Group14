@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const ForgotPasswordScreen = () => {
 
-    const [username, setUsername] = useState('');
+     const [email, setEmail] = useState('');
    
     const navigation = useNavigation();
 
@@ -24,15 +24,17 @@ const ForgotPasswordScreen = () => {
         <View style={styles.root}>
          <Text style={styles.title}>Forgot Password</Text>
   
-         <CustomInput placeholder="UserName" value={username} setValue={setUsername} />
+
+         <Text style={styles.input_text}>Email</Text>
+         <CustomInput placeholder="Email" value={email} setValue={setEmail} />
        
 
       
-  
-          <CustomButton  text="Send" onPress={onSendPress} />
-         
+        <View style={styles.button}>
+        <CustomButton  text="Send" onPress={onSendPress} />
+        <CustomButton  text="Back to Log in" onPress={onLogInPress} type="Secondary"/>
+        </View>
           
-          <CustomButton  text="Back to Log in" onPress={onLogInPress} type="Secondary"/>
 
         </View>
         </ScrollView>
@@ -43,14 +45,25 @@ const ForgotPasswordScreen = () => {
     root: {
         alignItems: 'center',
         padding: 20,
-
     },
     title:{
-         fontSize: 24,
+         fontSize: 35,
          fontWeight: 'bold',
          color: 'black',
-         margin: 10,
-
+         marginTop: 100,
+    },
+    input_text:{
+      fontSize: 19,
+      fontWeight: '300',
+      color: 'black',
+      marginTop: 40,
+      marginLeft: -290,
+    },
+    button:{
+      marginTop: 30,
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
     },
   });
 

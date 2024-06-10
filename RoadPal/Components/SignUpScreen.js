@@ -84,16 +84,17 @@ const SignUpScreen = () => {
     button:{
       marginTop: 40,
       alignItems: 'center',
-
     },
     special:{
       flexDirection: 'row',
       justifyContent:'space-around',
+      marginTop: 35,
     },
     special_2:{
-      marginTop: 20,
-      marginLeft: 99,
-      marginRight: -99,
+      marginTop: 18,
+      marginLeft: 80,
+      marginRight: -42,
+      fontSize: 19,
     },
   });
 

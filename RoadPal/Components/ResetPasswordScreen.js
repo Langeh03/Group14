@@ -26,16 +26,17 @@ const ResetPasswordScreen = () => {
         <View style={styles.root}>
          <Text style={styles.title}>Reset your password</Text>
   
+         <Text style={styles.input_text}>Enter confirmation code</Text>
          <CustomInput placeholder="Enter your confirmation code" value={code} setValue={setCode} />
+         <Text style={styles.input_text_2}>Enter new Password</Text>
          <CustomInput  placeholder="Enter your new Password" value={newpassword} setValue={setNewPassword} secureTextEntry={true} />
        
-
       
-  
-          <CustomButton  text="Submit" onPress={onSubmitPress} />
-         
+         <View style={styles.button}>
+         <CustomButton  text="Submit" onPress={onSubmitPress} />
+         <CustomButton  text="Back to Log in" onPress={onLogInPress} type="Secondary"/>
+        </View>
           
-          <CustomButton  text="Back to Log in" onPress={onLogInPress} type="Secondary"/>
 
         </View>
         </ScrollView>
@@ -45,15 +46,35 @@ const ResetPasswordScreen = () => {
   const styles = StyleSheet.create({
     root: {
         alignItems: 'center',
-        padding: 20,
+        padding: 40,
 
     },
     title:{
-         fontSize: 24,
+         fontSize: 35,
          fontWeight: 'bold',
          color: 'black',
-         margin: 10,
-
+         marginTop: 100,
+         marginBottom: 20,
+    },
+    input_text:{
+      fontSize: 19,
+      fontWeight: '300',
+      color: 'black',
+      marginTop: 10,
+      marginLeft: -140,
+    },
+    input_text_2:{
+      fontSize: 19,
+      fontWeight: '300',
+      color: 'black',
+      marginTop: 10,
+      marginLeft: -165,
+    },
+    button:{
+      marginTop: 30,
+      alignItems: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
     },
   });
 
