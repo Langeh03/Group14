@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MakeReport from "../screens/MakeReport";
 import UserProfile from "../screens/UserProfile";
 import Reports from "../screens/Reports";
+import EditUserProfile from "../screens/EditUserProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,11 @@ function AppNavigator() {
         <Stack.Screen
           name="Reports"
           component={Reports}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EditUserProfile"
+          component={EditUserProfile}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

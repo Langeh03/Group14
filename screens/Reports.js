@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 20,
         paddingTop: 60,
-    paddingBottom:20,
+    // paddingBottom:20,
   },
   contentContainer: {
-    paddingBottom: 20,
+      paddingBottom: 20,
   },
   title: {
     fontSize: 28,
@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 50,
     alignItems: "center",
-    justifyContent: "center",
+      justifyContent: "center",
+   
   },
   buttonText: {
     color: "#FFFFFF",
