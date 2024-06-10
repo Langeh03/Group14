@@ -26,16 +26,26 @@ const SignUpScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.root}>
          <Text style={styles.title}>Create an Account</Text>
-  
+         <Text style={styles.mini}>Please enter your information below</Text>
+        </View>
+
+        <View style={styles.input}>
+          <Text style={styles.input_text}>Full Name</Text>
           <CustomInput placeholder="UserName" value={username} setValue={setUsername} />
+          <Text style={styles.input_text}>Email</Text>
           <CustomInput placeholder="Email" value={email} setValue={setEmail} />
+          <Text style={styles.input_text}>Password</Text>
           <CustomInput  placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true} />
+          <Text style={styles.input_text}>Confirm Password</Text>
           <CustomInput placeholder="Repeat Password" value={passwordRepeat} setValue={setPasswordRepeat} secureTextEntry={true} />
-      
+      </View>
   
-          <CustomButton  text="Sign Up" onPress={onSignUpPress} />
-         
-          <CustomButton  text="Have an account? Log In" onPress={onLogInPress} type="Tertiary"/>
+          <View style={styles.button}>
+              <CustomButton  text="Sign Up" onPress={onSignUpPress} />  
+              <View style={styles.special}>
+              <Text style={styles.special_2}>Already have an account?</Text>
+              <CustomButton  text="Login" onPress={onLogInPress} type="Tertiary"/>
+              </View>  
         </View>
         </ScrollView>
     )
@@ -48,11 +58,42 @@ const SignUpScreen = () => {
 
     },
     title:{
-         fontSize: 24,
-         fontWeight: 'bold',
+         fontSize: 35,
+         fontWeight: '900',
          color: 'black',
          margin: 10,
+         paddingTop: 90,
+    },
+    mini:{
+      fontSize: 16,
+      fontWeight: '300',
+      color: 'black',
+      alignItems: 'flex-start'
+    },
+    input:{
+      marginTop: 20,
+      marginLeft: 40,
 
+    },  
+    input_text:{
+      fontSize: 19,
+      fontWeight: '300',
+      color: 'black',
+      
+    },
+    button:{
+      marginTop: 40,
+      alignItems: 'center',
+
+    },
+    special:{
+      flexDirection: 'row',
+      justifyContent:'space-around',
+    },
+    special_2:{
+      marginTop: 20,
+      marginLeft: 99,
+      marginRight: -99,
     },
   });
 

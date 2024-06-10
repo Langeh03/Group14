@@ -45,7 +45,7 @@ const CustomButton = ( {onPress, text, type="Primary"}) => {
         color: 'blue',
     },
     text_Tertiary:{
-        color: 'grey',
+        color: '#35989D',
     },
   });
 
