@@ -10,6 +10,7 @@ import {
 
 import CustomSearch from "../components/CustomSearch";
 import ReportCard from "../components/ReportCard";
+import CustomButton from "../components/CustomButton";
 
 function Reports({ navigation }) {
   const [isSearching, setIsSearching] = useState(false);
@@ -45,8 +46,8 @@ function Reports({ navigation }) {
     <View style={styles.container}>
       {isSearching ? (
         <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
+          <CustomSearch
+            // style={styles.searchInput}
             placeholder="Search..."
             value={searchQuery}
             onChangeText={handleInputChange}
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: "column",
     width: "100%",
-    padding: 20,
+    // padding: 20,
   },
   searchInput: {
     height: 40,
