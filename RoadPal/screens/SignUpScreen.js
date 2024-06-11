@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Text, View, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
-import CustomInput from '../custom/CustomInput';
-import CustomButton from '../custom/CustomButton';
+import CustomInput from '../components/CustomInput';
+import CustomButton from '../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 
 const SignUpScreen = () => {

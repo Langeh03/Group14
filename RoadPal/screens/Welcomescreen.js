@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dimensions, ImageBackground, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import CustomButton from '../custom/CustomButton';
+import CustomButton from '../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 
