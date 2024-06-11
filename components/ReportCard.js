@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
   ReportCardContainer: {
     height: 230,
     // width: width - 40, // Full width with some padding
-    // backgroundColor: "#fff",
+    backgroundColor: "#fff",
     borderRadius: 20,
     // padding: 10,
-    shadowColor: "#000",
-    // shadowOpacity: 0.1,
+    shadowColor: "#ccc",
+    shadowOpacity: 0.1,
     shadowRadius: 10,
-    // elevation: 5,
+    elevation: 5,
     margin: 5,
   },
   image: {
