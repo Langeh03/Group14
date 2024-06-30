@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native'
 import React from 'react'
 import { Icon } from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -120,9 +120,8 @@ export default NotificationScreen
 const styles = StyleSheet.create({
     home: {
       height: '100%',
-      paddingTop: 30,
       paddingHorizontal: 15,
-      marginTop: 20
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     wrappernt: {
         width: 330,
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
         width: 40
     },
     logo: {
-      fontSize: 25,
+      fontSize: 30,
       fontWeight: 'bold',
       marginBottom: 15
     }

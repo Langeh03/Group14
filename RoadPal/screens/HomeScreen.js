@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Platform } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import NavFavourites from '../components/NavFavourites'
@@ -98,9 +98,8 @@ export default HomeScreen
 const styles = StyleSheet.create({
   home: {
     height: '100%',
-    paddingTop: 30,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 15,
-    marginTop: 20,
   },
   logo: {
     fontSize: 30,
