@@ -1,92 +1,160 @@
+import { StyleSheet, Text, View, Animated, Image, Dimensions, SafeAreaView, Platform, StatusBar } from 'react-native'
 import React from 'react'
-import { Dimensions, ImageBackground, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import CustomButton from '../components/CustomButton';
-import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
+import CustomButton from '../components/CustomButton'
+import { useNavigation } from '@react-navigation/native'
 
+const {width, height} = Dimensions.get('screen')
 
-const {height} = Dimensions.get("window");
-const {width} = Dimensions.get("window");
+const data = [
+  {
+    key: 1,
+    title: 'RoadPal',
+    description: 'The most reliable friend you can have on the road',
+    image: require('../assets/Frame.png'),
+    st: {width: 130, height: 130, resizeMode: 'contain'}
+  },
+  {
+    key: 2,
+    title: 'Safety First',
+    description: "The part ahead isn't always clear, wouldn't you like to know what comes ahead?",
+    image: require('../assets/yum.jpg'),
+    st: {width: height, height: height, borderRadius: 50000, top: -height * 0.28, resizeMode: 'contain'}
+  }
+]
+
+const Indicator = ({scrollX}) => {
+  return <View style={{ position: 'absolute', bottom: 50, flexDirection: 'row'}}>
+    {data.map((_, i) => {
+      const  inputRange = [(i - 1) * width, i * width, (i + 1) * width]
+
+      const scale = scrollX.interpolate({
+        inputRange,
+        outputRange: [0.8, 1.4, 0.8],
+        extrapolate: 'clamp'
+      })
+
+      const opacity = scrollX.interpolate({
+        inputRange,
+        outputRange: [0.6, 0.9, 0.6],
+        extrapolate: 'clamp'
+      })
+      return <Animated.View
+        key={`indicator-${i}`}
+        style={{
+          height: 10,
+          width: 10,
+          borderRadius: 5,
+          backgroundColor: '#27A28E',
+          margin: 5,
+          opacity,
+          transform: [{scale}]
+        }}
+      />
+    })}
+  </View>
+}
+
+const Backdrop = () => {
+  return <View
+    style={[
+      StyleSheet.absoluteFillObject,
+      {
+        backgroundColor: '#AAF0E5'
+      }
+    ]}
+  />
+}
+
+const Square = ({scrollX}) => {
+  const YOLO = Animated.modulo(
+    Animated.divide(
+      Animated.modulo(scrollX, width),
+      new Animated.Value(width)
+    ), 1
+  );
+
+  const rotate = YOLO.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: ['-40deg', '0deg', '-40deg']
+  })
+  const translateX = YOLO.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0, -height, 0]
+  })
+  return <Animated.View 
+    style={{
+      width: height,
+      height: height,
+      backgroundColor: '#fff',
+      borderRadius: 50000,
+      position: 'absolute',
+      top: -height * 0.55,
+      transform: [{rotate},{translateX}]
+    }}
+  />
+}
+
+const Bottons = () => {
+
+  const  navigation = useNavigation();
+
+  return <View style={{position: 'absolute', bottom: 120}}>
+    <CustomButton  text="Get Started" onPress={() => navigation.navigate('LogIn')} />
+  </View>
+}
 
 const Welcomescreen = () => {
 
-      const navigation = useNavigation();
-      const onLogInPress = () => {
-        //validate user
+  const scrollX = React.useRef(new Animated.Value(0)).current;
 
-        navigation.navigate('LogIn');
-    };
-
-    const onSignUpPress = () => {
-      navigation.navigate('SignUp');
-    };
-
-    return (
-      <SafeAreaView style={styles.show} >
-
-        <View style={styles.root}>
-        <ImageBackground style={styles.image} resizeMode='contain'
-        source={require("../assets/welcome3.jpg")}/>
-       </View>
-
-       <View  style={styles.root}>
-       <Text style={styles.text_1}>Welcome to RoadPal</Text>
-       <Text style={styles.text_2}>Get notifications about road signs and conditions in your area</Text>
-       </View>
-
-      <View style={styles.root_2}>
-      <CustomButton  text="Get Started" onPress={onSignUpPress} type="W"/>
-      <View style={{marginLeft:'7%'}}>
-      <CustomButton  text="Already have an account? Login" onPress={onLogInPress} type='Tertiary'/>
-      </View>
-      
-      </View>
-
-       </SafeAreaView>
-    
-    )
-  }
-
-  const styles = StyleSheet.create({
-    show:{
-      backgroundColor: 'white',
-      height: '100%',
-    },
-    root: {
-      paddingHorizontal: 14,
-      position: 'relative',
-      top: -560,
-      
-    },
-    image:{
-      width: width,
-      height: height,
-      position: 'relative',
-      top: 235,
-      left: -15,
-    },
-    root_2:{
-      paddingHorizontal: 14,
-      position: 'relative',
-      top: -450,
-      left: '25%',
-      
-    },
-    text_1:{
-        fontSize: 44,
-        color: 'black',
-       
-        textAlign: 'center',
-    },
-
-    text_2:{
-      fontSize: 24,
-      paddingTop: 14,
-      color: 'grey',
-     
-      textAlign: 'center',
-  },
-  });
+  return (
+    <SafeAreaView style={styles.container}>
+      <Backdrop />
+      <Square scrollX={scrollX} />
+      <Animated.FlatList 
+        data={data}
+        keyExtractor={item => item.key}
+        horizontal
+        scrollEventThrottle={32}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {x: scrollX}}}],
+          {useNativeDriver: false}
+        )}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: 100}}
+        pagingEnabled
+        renderItem={({ item: {title, description, image, st} }) => {
+          return (
+            <View style={{ width, alignItems: 'center', overflow: 'hidden'}}>
+              <View style={{flex: .6, justifyContent: 'center', overflow: 'hidden'}}>
+                <Image 
+                  style={st}
+                  source={image} 
+                />
+              </View>
+              <View style={{ flex: 0.4, paddingHorizontal: 15}}>
+                <Text style={{fontSize: 40, fontWeight: '900'}}>{title}</Text>
+                <Text>{description}</Text>
+              </View>
+            </View>
+          );
+        }}
+      />
+      <Bottons />
+      <Indicator scrollX={scrollX} />
+    </SafeAreaView>
+  )
+}
 
 export default Welcomescreen
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+  }
+})

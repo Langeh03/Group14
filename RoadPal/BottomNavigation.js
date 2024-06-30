@@ -7,7 +7,7 @@ import MapScreen from './screens/MapScreen';
 import HomeScreen from './screens/HomeScreen';
 import NotificationScreen from './screens/NotificationScreen'
 
-const Navigation = () => {
+const BottomNavigation = () => {
 
     const homeScreen = 'Home';
     const travelScreen = "Map";
@@ -16,7 +16,6 @@ const Navigation = () => {
     const Tab = createBottomTabNavigator();
 
   return (
-    <NavigationContainer>
         <Tab.Navigator
             initialRouteName={homeScreen}
             screenOptions={({route}) => ({
@@ -40,10 +39,9 @@ const Navigation = () => {
             <Tab.Screen name={travelScreen} component={MapScreen} options={{headerShown: false}}/>
             <Tab.Screen name={notificationScreen} component={NotificationScreen} options={{headerShown: false}}/>
         </Tab.Navigator>
-    </NavigationContainer>
   )
 }
 
-export default Navigation
+export default BottomNavigation
 
 const styles = StyleSheet.create({})

@@ -17,10 +17,10 @@ const LogInScreen = () => {
     const onLogInPress = () => {
        //validate user
 
-       navigation.navigate('HomeScreen');
+       navigation.navigate('BottomNavigation');
     };
 
-    const onForgotPasswordPress = () => {
+    const onForgotPasswordPress = () => { 
         navigation.navigate('ForgotPassword');
     };
 
