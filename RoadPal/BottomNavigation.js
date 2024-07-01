@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements'
 import MapScreen from './screens/MapScreen';
@@ -44,9 +43,9 @@ const BottomNavigation = () => {
             })}
         >
             <Tab.Screen name={homeScreen} component={HomeScreen} options={{headerShown: false}}/>
+            <Tab.Screen name={notificationScreen} component={NotificationScreen} options={{headerShown: false}}/>
             <Tab.Screen name={travelScreen} component={MapScreen} options={{headerShown: false}}/>
             <Tab.Screen name={makeReportScreen} component={MakeReport} options={{headerShown: false}}/>
-            <Tab.Screen name={notificationScreen} component={NotificationScreen} options={{headerShown: false}}/>
             <Tab.Screen name={viewReportScreen} component={Reports} options={{headerShown: false}}/>
         </Tab.Navigator>
   )

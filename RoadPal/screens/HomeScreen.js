@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Platform } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Platform, StatusBar } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import NavFavourites from '../components/NavFavourites'
@@ -14,22 +14,16 @@ const data = [
   },
   {
     id: "2",
-    title: "Road Signs",
+    title: "Updates",
     image: "",
     screen: "Map",
   },
   {
     id: "3",
-    title: "Reports",
+    title: "Road Signs",
     image: "",
     screen: "Map",
   },
-  {
-    id: "4",
-    title: "Help",
-    image: "",
-    screen: "Map",
-  }
 ]
 
 const HomeScreen = () => {
@@ -38,7 +32,7 @@ const HomeScreen = () => {
 
   return (
     <LinearGradient style={styles.home} colors={["#ffffff", "#AAF0E5"]}>
-      <View style={{flex: 1, paddingnavigationBottom: 20}}>
+      <View style={{flex: 1, paddingnavigationBottom: 20, paddingTop: 30}}>
         <FlatList
             data={data}
             keyExtractor={(item) => item.id}
@@ -67,7 +61,15 @@ const HomeScreen = () => {
             }}
             ListHeaderComponent={() => (
               <View>
-                <Text style={styles.logo}>RoadPal</Text>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <Text style={styles.logo}>RoadPal</Text>
+                  <TouchableOpacity>
+                    <Image 
+                      style={{width: 50, height: 50, resizeMode: 'cover', borderRadius: 50}}
+                      source={require('../assets/user.jpg')}
+                    />
+                  </TouchableOpacity>
+                </View>
         
                 <Image 
                   style={{width: 326, height: 166, resizeMode: 'cover', borderRadius: 20, marginVertical: 15}}

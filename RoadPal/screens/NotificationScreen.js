@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Platform, StatusBar } from 'react-native'
 import React from 'react'
 import { Icon } from 'react-native-elements'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -89,7 +89,6 @@ const NotificationScreen = () => {
             ItemSeparatorComponent={() => (
                 <View style={{height: 10, width: 10}} />
             )}
-            style={{marginVertical: 15}}
             renderItem={({ item: {icon, roadSing, description} }) => {
                 return (
                     <TouchableOpacity style={styles.wrappernt}>
@@ -143,6 +142,7 @@ const styles = StyleSheet.create({
     logo: {
       fontSize: 30,
       fontWeight: 'bold',
-      marginBottom: 15
+      marginBottom: 15,
+      paddingTop: 30,
     }
 })

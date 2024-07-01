@@ -11,6 +11,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Platform, 
+  StatusBar
 } from "react-native";
 
 const MakeReport = ({ navigation }) => {
@@ -35,7 +37,7 @@ const MakeReport = ({ navigation }) => {
       <LinearGradient style={styles.home} colors={["#ffffff", "#AAF0E5"]}>
         <View style={styles.root}>
           <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.contentContainer} >
+            <ScrollView contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false} >
               <Text style={styles.title}>Report A Road Condition</Text>
               <TextInput
                 style={styles.input}
@@ -56,7 +58,7 @@ const MakeReport = ({ navigation }) => {
                 onChangeText={setField3}
               />
               <CustomDropdown
-                style={styles.input}
+                style={[styles.input, {backgroundColor: "#000"}]}
                 options={options}
                 onSelect={(option) => setSelectedOption(option)}
                 selectedOption={selectedOption}
@@ -87,14 +89,10 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    
-    paddingHorizontal: 20,
-        paddingTop: 20,
-    
-    },
-    root: {
-        flex: 1,backgroundColor: "#fff",
-    },
+  },
+  root: {
+    flex: 1,
+  },
   contentContainer: {
     paddingBottom: 20,
   },
@@ -105,11 +103,10 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 48,
-    borderColor: "#ccc",
-    borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
+    backgroundColor: "#fff"
   },
   messageBox: {
     height: 120,
@@ -118,7 +115,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#18776F",
-      paddingVertical: 15,
+    paddingVertical: 15,
     marginTop: 20,
     paddingHorizontal: 20,
     borderRadius: 50,
