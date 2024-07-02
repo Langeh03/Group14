@@ -11,51 +11,46 @@ const CustomButton = ( {onPress, text, type="Primary"}) => {
 
   const styles = StyleSheet.create({
     container: {
-        width: 150,
-        height: 60,
-        padding: 15,
-        borderRadius: 50,
-        marginVertical: 5,
-        alignItems: 'center',
-        
-    },
-    container_W:{
-      width: 167,
+      width: '100%',
       height: 60,
       padding: 15,
       borderRadius: 50,
-      backgroundColor: '#18776F',
+      marginVertical: 5,
+      alignItems: 'center',
+    },
+    container_W:{
+      width: 237,
+      height: 60,
+      padding: 15,
+      borderRadius: 50,
+      backgroundColor: '#27A28E',
      
     },
     container_Primary:{
-        backgroundColor: '#18776F',
+      backgroundColor: '#27A28E',
     },
     container_Secondary:{
-        borderColor: '#18776F',
-        borderWidth: 2,
+      borderColor: '#27A28E',
+      borderWidth: 2,
     },
     container_Tertiary:{
-        width: 300,
-        height: 60,
-        padding: 15,
-        borderRadius: 50,
-        marginVertical: 5,
-        alignItems: 'center',
-        marginLeft:'-28%',
-        
+      width: 'fit-content',
+      height: 'fit-content',
+      padding: 15,
+      marginVertical: 5,
     },
     text: {
-        fontWeight: 'bold',
-        color: 'white',
-        fontSize: 18,
+      fontWeight: 'bold',
+      color: 'white',
+      fontSize: 18,
     },
     text_Secondary:{
-        color: '#18776F',
+      color: '#27A28E',
     },
     text_Tertiary:{
-        color: '#18776F',
-        fontSize: 17,
-    },
+      color: '#27A28E',
+      fontSize: 17,
+    }
   });
 
 export default CustomButton

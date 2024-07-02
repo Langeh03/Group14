@@ -98,7 +98,7 @@ const Bottons = () => {
 
   const  navigation = useNavigation();
 
-  return <View style={{position: 'absolute', bottom: 120}}>
+  return <View style={{position: 'absolute', bottom: 120, width: '90%'}}>
     <CustomButton  text="Get Started" onPress={() => navigation.navigate('LogIn')} />
   </View>
 }
@@ -108,7 +108,7 @@ const Welcomescreen = () => {
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Backdrop />
       <Square scrollX={scrollX} />
       <Animated.FlatList 
@@ -142,7 +142,7 @@ const Welcomescreen = () => {
       />
       <Bottons />
       <Indicator scrollX={scrollX} />
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -155,6 +155,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   }
 })
