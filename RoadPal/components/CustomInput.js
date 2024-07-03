@@ -5,11 +5,11 @@ const CustomInput = ({value, setValue, placeholder, secureTextEntry}) => {
     return (
       <View style={styles.container}>
         <TextInput
-        value={value}
-        onChangeText = {setValue}
-        placeholder={placeholder}
-        style={StyleSheet.input}
-        secureTextEntry={secureTextEntry}
+          value={value}
+          onChangeText = {setValue}
+          placeholder={placeholder}
+          style={StyleSheet.input}
+          secureTextEntry={secureTextEntry}
         />
       </View>
     )
@@ -17,16 +17,16 @@ const CustomInput = ({value, setValue, placeholder, secureTextEntry}) => {
 
 const styles = StyleSheet.create({
 container: {
-    backgroundColor: 'white',
-    width: 325,
-    height: 42,
+  backgroundColor: 'white',
+  width: '100%',
+  height: 42,
 
-    borderColor: '#e8e8e8',
-    borderWidth: 1,
-    borderRadius: 5,
+  
+  borderRadius: 10,
 
-    paddingHorizontal: 10,
-    marginVertical: 10,
+  paddingVertical: 10,
+  paddingHorizontal: 10,
+  marginVertical: 10,
 },
 input: {},
 });
