@@ -1,31 +1,47 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
-
-// const { width } = Dimensions.get("window");
+import Icon from "react-native-vector-icons/MaterialIcons"; // Import the icon library
 
 const ReportCard = ({ imageSource, title, timestamp, location }) => {
   return (
-    <View style={styles.ReportCardContainer}>
+    <View style={styles.reportCardContainer}>
       <Image source={{ uri: imageSource }} style={styles.image} />
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.timestamp}>{timestamp}</Text>
-      <Text style={styles.location}>{location}</Text>
+      <View style={styles.contentContainer}>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.row}>
+          <Icon
+            name="access-time"
+            size={20}
+            color="#35989D"
+            style={styles.icon}
+          />
+          <Text style={styles.timestamp}>{timestamp}</Text>
+        </View>
+        <View style={styles.row}>
+          <Icon name="place" size={20} color="#35989D" style={styles.icon} />
+          <Text style={styles.location}>{location}</Text>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  ReportCardContainer: {
+  reportCardContainer: {
     height: 230,
-    // width: width - 40, // Full width with some padding
     backgroundColor: "#fff",
     borderRadius: 20,
-    // padding: 10,
     shadowColor: "#ccc",
     shadowOpacity: 0.1,
     shadowRadius: 10,
     elevation: 5,
     margin: 5,
+    // padding: 10, // Add padding to the container
+  },
+
+  contentContainer: {
+    paddingHorizontal: 10,
+    paddingBottom: 20,
   },
   image: {
     height: 128,
@@ -37,18 +53,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
-    paddingLeft: 10,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+  },
+  icon: {
+    marginRight: 5,
   },
   timestamp: {
     fontSize: 16,
     color: "#333",
-    marginBottom: 5,
-    paddingLeft: 10,
   },
   location: {
     fontSize: 14,
     color: "#333",
-    paddingLeft: 10,
   },
 });
 
