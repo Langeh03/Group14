@@ -2,16 +2,44 @@ import React, { useState } from "react";
 import {
   View,
   StyleSheet,
-  ScrollView,
+  FlatList,
   Button,
   Text,
   StatusBar,
-  Platform
+  Platform,
 } from "react-native";
 
 import CustomSearch from "../components/CustomSearch";
 import ReportCard from "../components/ReportCard";
 import { LinearGradient } from "expo-linear-gradient";
+
+const reportsData = [
+  {
+    id: "1",
+    imageSource:
+      "https://cdn.pixabay.com/photo/2016/04/05/01/49/crash-1308575_1280.jpg",
+    title: "Road accident",
+    timestamp: "5 minutes ago",
+    location: "Buea, mayor street",
+  },
+  {
+    id: "2",
+    imageSource:
+      "https://cdn.pixabay.com/photo/2014/01/03/17/06/roll-238142_960_720.jpg",
+    title: "Road work",
+    timestamp: "15 days ago",
+    location: "Yaounde, Mokolo",
+  },
+  {
+    id: "3",
+    imageSource:
+      "https://cdn.pixabay.com/photo/2019/09/13/14/22/road-sign-4474011_640.jpg",
+    title: "Road work",
+    timestamp: "1 month ago",
+    location: "Buea, Sandpit",
+  },
+  // Add more report objects here if needed
+];
 
 function Reports({ navigation }) {
   const [isSearching, setIsSearching] = useState(false);
@@ -54,44 +82,34 @@ function Reports({ navigation }) {
               value={searchQuery}
               onChangeText={handleInputChange}
             />
-            <ScrollView style={styles.suggestionsContainer}>
-              {suggestions.map((suggestion, index) => (
-                <Text key={index}>{suggestion}</Text>
-              ))}
-            </ScrollView>
+            <FlatList
+              style={styles.suggestionsContainer}
+              data={suggestions}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => <Text>{item}</Text>}
+            />
             <View style={styles.searchButtons}>
               <Button title="Cancel" onPress={handleSearchCancel} />
               <Button title="Search" onPress={handleSearchSubmit} />
             </View>
           </View>
-        ) : 
-        (
+        ) : (
           <>
             <CustomSearch onPress={handleSearchPress} />
-            <ScrollView
+            <FlatList
               contentContainerStyle={styles.contentContainer}
-              bounces={true}
+              data={reportsData}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <ReportCard
+                  imageSource={item.imageSource}
+                  title={item.title}
+                  timestamp={item.timestamp}
+                  location={item.location}
+                />
+              )}
               showsVerticalScrollIndicator={false}
-            >
-              <ReportCard
-                imageSource="https://cdn.pixabay.com/photo/2016/04/05/01/49/crash-1308575_1280.jpg"
-                title={"Road accident"}
-                timestamp={"5 minutes ago"}
-                location={"Buea, mayor street"}
-              />
-              <ReportCard
-                imageSource="https://cdn.pixabay.com/photo/2014/01/03/17/06/roll-238142_960_720.jpg"
-                title={"Road work"}
-                timestamp={"15 days ago"}
-                location={"Yaounde, Mokolo"}
-              />
-              <ReportCard
-                imageSource="https://cdn.pixabay.com/photo/2019/09/13/14/22/road-sign-4474011_640.jpg"
-                title={"Road work"}
-                timestamp={"1 month ago"}
-                location={"Buea, Sandpit"}
-              />
-            </ScrollView>
+            />
           </>
         )}
       </View>
@@ -101,7 +119,7 @@ function Reports({ navigation }) {
 
 const styles = StyleSheet.create({
   home: {
-    height: '100%',
+    height: "100%",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 15,
   },
