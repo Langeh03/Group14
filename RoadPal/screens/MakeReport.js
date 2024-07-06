@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-import CustomDropdown from "../components/CustomDropdown";
-import { LinearGradient } from 'expo-linear-gradient'
-import CustomAppbar from "../components/CustomAppbar";
-
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,79 +7,160 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Platform, 
-  StatusBar
+  Platform,
+  StatusBar,
 } from "react-native";
+import CustomDropdown from "../components/CustomDropdown";
+import { LinearGradient } from "expo-linear-gradient";
+import CustomAppbar from "../components/CustomAppbar";
 
 const MakeReport = ({ navigation }) => {
-  const [field1, setField1] = useState("");
-  const [field2, setField2] = useState("");
-  const [field3, setField3] = useState("");
+  // Simulated initial values
+  const initialRegion = "South West";
+  const initialTown = "Buea";
+  const initialLocation = "Default Location";
+
+  const [region, setRegion] = useState(initialRegion);
+  const [town, setTown] = useState(initialTown);
+  const [location, setLocation] = useState(initialLocation);
   const [feedback, setFeedback] = useState("");
+  const [roadConditions, setRoadConditions] = useState([]);
+  const [roadSigns, setRoadSigns] = useState([]);
+  const [selectedReportType, setSelectedReportType] =
+    useState("Select report type");
+  const [selectedRoadCondition, setSelectedRoadCondition] =
+    useState("Select an option");
+  const [selectedRoadSign, setSelectedRoadSign] =
+    useState("Select a road sign");
 
-  // Options for road conditions
-  const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
-  const [selectedOption, setSelectedOption] = useState("Select an option");
+  // Simulate fetching road conditions and signs from an API
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        // Simulate API call
+        const simulatedRoadConditions = [
+          "Pothole",
+          "Construction",
+          "Flooded",
+          "Debris",
+          "Ice",
+        ];
+        const simulatedRoadSigns = [
+          "Stop",
+          "Yield",
+          "Speed Limit",
+          "No Entry",
+          "One Way",
+        ];
+        setRoadConditions(simulatedRoadConditions);
+        setRoadSigns(simulatedRoadSigns);
+      } catch (error) {
+        Alert.alert("Error fetching options:", error.message);
+      }
+    };
 
+    fetchOptions();
+  }, []);
+
+  // Simulate form submission
   const handleSubmit = () => {
-    Alert.alert(
-      "Submitted",
-      `Field 1: ${field1}\nField 2: ${field2}\nField 3: ${field3}\nRoad Condition: ${selectedOption}\nFeedback: ${feedback}`
-    );
-    navigation.navigate("Reports");
+    if (
+      !region ||
+      !town ||
+      !location ||
+      !feedback ||
+      selectedReportType === "Select report type" ||
+      (selectedReportType === "Road Condition" &&
+        (selectedRoadCondition === "Select an option" ||
+          !selectedRoadCondition)) ||
+      (selectedReportType === "Road Sign" &&
+        (selectedRoadSign === "Select a road sign" || !selectedRoadSign))
+    ) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
+    }
+
+    try {
+      // Simulate form submission
+      Alert.alert(
+        "Submitted",
+        `Region: ${region}\nTown: ${town}\nLocation: ${location}\nReport Type: ${selectedReportType}\nRoad Condition: ${selectedRoadCondition}\nRoad Sign: ${selectedRoadSign}\nFeedback: ${feedback}`
+      );
+      navigation.navigate("Reports");
+    } catch (error) {
+      Alert.alert("Error submitting report:", error.message);
+    }
   };
 
-    return (
-      <LinearGradient style={styles.home} colors={["#ffffff", "#AAF0E5"]}>
-        <View style={styles.root}>
-          <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false} >
-              <Text style={styles.title}>Report A Road Condition</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Region"
-                value={field1}
-                onChangeText={setField1}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Town"
-                value={field2}
-                onChangeText={setField2}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Location"
-                value={field3}
-                onChangeText={setField3}
-              />
+  return (
+    <LinearGradient style={styles.home} colors={["#ffffff", "#AAF0E5"]}>
+      <View style={styles.root}>
+        <View style={styles.container}>
+          <ScrollView
+            contentContainerStyle={styles.contentContainer}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={styles.title}>Report A Road Condition</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Region"
+              value={region}
+              onChangeText={setRegion}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Town"
+              value={town}
+              onChangeText={setTown}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Location"
+              value={location}
+              onChangeText={setLocation}
+            />
+            <CustomDropdown
+              style={styles.dropdown}
+              options={["Road Condition", "Road Sign"]}
+              onSelect={(option) => setSelectedReportType(option)}
+              selectedOption={selectedReportType}
+            />
+            {selectedReportType === "Road Condition" ? (
               <CustomDropdown
-                style={[styles.input, {backgroundColor: "#000"}]}
-                options={options}
-                onSelect={(option) => setSelectedOption(option)}
-                selectedOption={selectedOption}
+                style={styles.dropdown}
+                options={roadConditions}
+                onSelect={(option) => setSelectedRoadCondition(option)}
+                selectedOption={selectedRoadCondition}
               />
-              <TextInput
-                style={[styles.input, styles.messageBox]}
-                placeholder="Add details"
-                value={feedback}
-                onChangeText={setFeedback}
-                multiline
-                numberOfLines={4}
+            ) : selectedReportType === "Road Sign" ? (
+              <CustomDropdown
+                style={styles.dropdown}
+                options={roadSigns}
+                onSelect={(option) => setSelectedRoadSign(option)}
+                selectedOption={selectedRoadSign}
               />
-              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Submit</Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
+            ) : null}
+            <TextInput
+              style={[styles.input, styles.messageBox]}
+              placeholder="Add details"
+              value={feedback}
+              onChangeText={setFeedback}
+              multiline
+              numberOfLines={4}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
-      </LinearGradient>
-    );
+      </View>
+    </LinearGradient>
+  );
 };
 
 const styles = StyleSheet.create({
   home: {
-    height: '100%',
+    height: "100%",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 15,
   },
@@ -99,14 +176,21 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 20,marginRight: 40, marginTop: 30,
+    marginBottom: 20,
+    marginRight: 40,
+    marginTop: 30,
   },
   input: {
     height: 48,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+  },
+  dropdown: {
+    marginBottom: 15,
+    backgroundColor: "#fff",
+    borderRadius: 5,
   },
   messageBox: {
     height: 120,
