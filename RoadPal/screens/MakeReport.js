@@ -12,13 +12,9 @@ import {
 } from "react-native";
 import CustomDropdown from "../components/CustomDropdown";
 import { LinearGradient } from "expo-linear-gradient";
-import CustomAppbar from "../components/CustomAppbar";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { firebase } from "../config";
-import firestore from "@react-native-firebase/firestore";
-
-
 
 const MakeReport = ({ navigation }) => {
   const initialRegion = {
@@ -28,11 +24,9 @@ const MakeReport = ({ navigation }) => {
     longitudeDelta: 0.0421,
   };
 
-
   const [region, setRegion] = useState(initialRegion);
-  const [town, setTown] = useState("Buea");
-  const [location, setLocation] = useState("");
-  const [marker, setMarker] = useState(null);
+  const [town, setTown] = useState("");
+  const [locality, setLocality] = useState("");
   const [feedback, setFeedback] = useState("");
   const [selectedReportType, setSelectedReportType] =
     useState("Select report type");
@@ -43,52 +37,7 @@ const MakeReport = ({ navigation }) => {
   const [useCurrentLocation, setUseCurrentLocation] = useState(true);
   const [roadstates, setRoadStates] = useState([]);
   const [roadsigns, setRoadSigns] = useState([]);
-
-//   /// start
-// useEffect(() => {
-//   const subscriber = firestore()
-//     .collection("roadsigns")
-//     .onSnapshot((querySnapshot) => {
-//       const fetchRoadSigns = [];
-
-//       querySnapshot.forEach((documentSnapshot) => {
-//         fetchRoadSigns.push({
-//           ...documentSnapshot.data(),
-//           key: documentSnapshot.id
-//         });
-//       });
-
-//       setRoadSigns(fetchRoadSigns);
-//       // setLoading(false);
-//     });
-
-//   // Unsubscribe from events when no longer in use
-//   return () => subscriber();
-// }, []);
-
-//   useEffect(() => {
-//     const subscriber = firestore()
-//       .collection("roadsigns")
-//       .onSnapshot((querySnapshot) => {
-//         const fetchedRoadStates = [];
-
-//         querySnapshot.forEach((documentSnapshot) => {
-//           fetchedRoadStates.push({
-//             ...documentSnapshot.data(),
-//             key: documentSnapshot.id,
-//           });
-//         });
-
-//         setRoadSigns(fetchedRoadStates);
-//         // setLoading(false);
-//       });
-
-//     // Unsubscribe from events when no longer in use
-//     return () => subscriber();
-//   }, []);
-
-//   /// end
-
+  const [marker, setMarker] = useState(null);
 
   useEffect(() => {
     const roadstateRef = firebase.firestore().collection("roadstates");
@@ -124,7 +73,7 @@ const MakeReport = ({ navigation }) => {
       }
     };
 
-    const fetchOptions = async () => {
+    const fetchLocation = async () => {
       try {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
@@ -143,25 +92,19 @@ const MakeReport = ({ navigation }) => {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         });
-        setLocation(
-          `${location.coords.latitude}, ${location.coords.longitude}`
-        );
       } catch (error) {
-        Alert.alert("Error fetching options or location:", error.message);
+        Alert.alert("Error fetching your location:", error.message);
       }
     };
 
     fetchRoadStates();
     fetchRoadSigns();
-    fetchOptions();
+    fetchLocation();
   }, []);
 
   const handleMapPress = (event) => {
     if (!useCurrentLocation) {
       setMarker(event.nativeEvent.coordinate);
-      setLocation(
-        `${event.nativeEvent.coordinate.latitude}, ${event.nativeEvent.coordinate.longitude}`
-      );
     }
   };
 
@@ -172,8 +115,17 @@ const MakeReport = ({ navigation }) => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
-      setLocation(`${location.coords.latitude}, ${location.coords.longitude}`);
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
       setUseCurrentLocation(true);
+      Alert.alert(
+        "Current Location",
+        `Latitude: ${location.coords.latitude}, Longitude: ${location.coords.longitude}`
+      );
     } catch (error) {
       Alert.alert("Error getting current location:", error.message);
     }
@@ -183,11 +135,28 @@ const MakeReport = ({ navigation }) => {
     setUseCurrentLocation(false);
   };
 
+  const confirmCustomLocation = () => {
+    if (marker) {
+      setRegion({
+        latitude: marker.latitude,
+        longitude: marker.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+      Alert.alert(
+        "Custom Location Set",
+        `Latitude: ${marker.latitude}, Longitude: ${marker.longitude}`
+      );
+    } else {
+      Alert.alert("Error", "Please set a marker on the map.");
+    }
+  };
+
   const handleSubmit = () => {
     if (
       !region ||
       !town ||
-      !location ||
+      !locality ||
       !feedback ||
       selectedReportType === "Select report type" ||
       (selectedReportType === "Road Condition" &&
@@ -200,15 +169,52 @@ const MakeReport = ({ navigation }) => {
       return;
     }
 
-    try {
-      Alert.alert(
-        "Submitted",
-        `Region: ${region.latitude}, ${region.longitude}\nTown: ${town}\nLocation: ${location}\nReport Type: ${selectedReportType}\nRoad Condition: ${selectedRoadCondition}\nRoad Sign: ${selectedRoadSign}\nFeedback: ${feedback}`
-      );
-      navigation.navigate("Reports");
-    } catch (error) {
-      Alert.alert("Error submitting report:", error.message);
-    }
+    // Prepare data to be submitted to Firestore
+    const reportData = {
+      region: {
+        latitude: region.latitude,
+        longitude: region.longitude,
+      },
+      town,
+      locality,
+      feedback,
+      roadCondition:
+        selectedReportType === "Road Condition" ? selectedRoadCondition : null,
+      roadSign: selectedReportType === "Road Sign" ? selectedRoadSign : null,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+
+    // Display confirmation alert to the user
+    Alert.alert(
+      "Confirm Submission",
+      `Region: ${region.latitude}, ${
+        region.longitude
+      }\nTown: ${town}\nLocality: ${locality}\nReport Type: ${selectedReportType}\nRoad Condition: ${
+        selectedReportType === "Road Condition" ? selectedRoadCondition : "N/A"
+      }\nRoad Sign: ${
+        selectedReportType === "Road Sign" ? selectedRoadSign : "N/A"
+      }\nFeedback: ${feedback}`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            try {
+              // Submit report data to Firestore
+              await firebase.firestore().collection("reports").add(reportData);
+              Alert.alert("Success", "Report submitted successfully.");
+              navigation.navigate("Reports");
+            } catch (error) {
+              Alert.alert("Error submitting report:", error.message);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -222,9 +228,15 @@ const MakeReport = ({ navigation }) => {
             <Text style={styles.title}>Report A Road Condition</Text>
             <TextInput
               style={styles.input}
-              placeholder="Town"
+              placeholder="Town, example Buea"
               value={town}
               onChangeText={setTown}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Locality, example Molyko"
+              value={locality}
+              onChangeText={setLocality}
             />
             <View style={styles.locationButtonsContainer}>
               <TouchableOpacity
@@ -267,6 +279,16 @@ const MakeReport = ({ navigation }) => {
             >
               {marker && <Marker coordinate={marker} />}
             </MapView>
+            {!useCurrentLocation && (
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={confirmCustomLocation}
+              >
+                <Text style={styles.confirmButtonText}>
+                  Confirm Marker Location
+                </Text>
+              </TouchableOpacity>
+            )}
             <CustomDropdown
               style={styles.dropdown}
               options={["Road Condition", "Road Sign"]}
@@ -289,15 +311,17 @@ const MakeReport = ({ navigation }) => {
               />
             ) : null}
             <TextInput
-              style={[styles.input, styles.messageBox]}
-              placeholder="Add details"
+              style={[styles.input, { height: 100 }]}
+              placeholder="Additional Feedback"
               value={feedback}
               onChangeText={setFeedback}
               multiline
-              numberOfLines={4}
             />
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Submit</Text>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.submitButtonText}>Submit</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
@@ -308,84 +332,85 @@ const MakeReport = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   home: {
-    height: "100%",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    paddingHorizontal: 15,
-  },
-  container: {
     flex: 1,
   },
   root: {
     flex: 1,
+    alignItems: "center",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  container: {
+    flex: 1,
+    width: "90%",
   },
   contentContainer: {
-    paddingBottom: 20,
+    paddingBottom: 40,
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 20,
-    marginRight: 40,
-    marginTop: 30,
+    marginVertical: 20,
+    textAlign: "center",
   },
   input: {
-    height: 48,
+    height: 50,
+    borderColor: "#18776F",
+    borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginBottom: 15,
-    backgroundColor: "#fff",
-  },
-  dropdown: {
-    marginBottom: 15,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-  },
-  messageBox: {
-    height: 120,
-    padding: 10,
-    textAlignVertical: "top",
-  },
-  button: {
-    backgroundColor: "#18776F",
-    paddingVertical: 15,
-    marginTop: 20,
-    paddingHorizontal: 20,
-    borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  map: {
-    height: 300,
-    marginBottom: 15,
-    borderRadius: 10,
+    marginBottom: 20,
   },
   locationButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: 20,
   },
   locationButton: {
     flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: "#ccc",
-    borderRadius: 5,
-    marginHorizontal: 5,
     alignItems: "center",
-  },
-  locationButtonText: {
-    color: "#333",
+    padding: 10,
+    marginHorizontal: 5,
+    backgroundColor: "#E0E0E0",
+    borderRadius: 5,
   },
   activeLocationButton: {
     backgroundColor: "#18776F",
   },
+  locationButtonText: {
+    color: "#000",
+  },
   activeLocationButtonText: {
-    color: "#fff",
+    color: "#FFF",
+  },
+  map: {
+    height: 300,
+    width: "100%",
+    marginBottom: 20,
+  },
+  confirmButton: {
+    backgroundColor: "#18776F",
+    padding: 10,
+    alignItems: "center",
+    marginBottom: 20,
+    borderRadius: 5,
+  },
+  confirmButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+  },
+  dropdown: {
+    marginBottom: 20,
+  },
+  submitButton: {
+    backgroundColor: "#18776F",
+    padding: 15,
+    alignItems: "center",
+    borderRadius: 5,
+  },
+  submitButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
