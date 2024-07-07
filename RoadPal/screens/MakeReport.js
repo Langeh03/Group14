@@ -131,8 +131,6 @@
 
 // export default MakeReport;
 
-
-
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -190,7 +188,7 @@ const MakeReport = ({ navigation }) => {
           setRoadStates(fetchedRoadStates);
         });
       } catch (error) {
-        Alert.alert(error);
+        Alert.alert(error.message);
       }
     };
 
@@ -205,7 +203,7 @@ const MakeReport = ({ navigation }) => {
           setRoadSigns(fetchedRoadSigns);
         });
       } catch (error) {
-        alert(error);
+        alert(error.message);
       }
     };
 
@@ -354,7 +352,7 @@ const MakeReport = ({ navigation }) => {
             </MapView>
             <CustomDropdown
               style={styles.dropdown}
-              options={["Road State", "Road Sign"]}
+              options={["Road Condition", "Road Sign"]}
               onSelect={(option) => setSelectedReportType(option)}
               selectedOption={selectedReportType}
             />
