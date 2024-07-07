@@ -16,7 +16,7 @@ const data = [
     id: "2",
     title: "Updates",
     image: "",
-    screen: "Map",
+    screen: "Updates",
   },
   {
     id: "3",

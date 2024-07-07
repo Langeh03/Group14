@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements'
-import MapScreen from './screens/MapScreen';
-import HomeScreen from './screens/HomeScreen';
-import NotificationScreen from './screens/NotificationScreen'
-import MakeReport from './screens/MakeReport'
-import Reports from './screens/Reports'
+import MapScreen from '../screens/MapScreen';
+import HomeScreen from '../screens/HomeScreen';
+import NotificationScreen from '../screens/NotificationScreen'
+import MakeReport from '../screens/MakeReport'
+import Reports from '../screens/Reports'
 
 const BottomNavigation = () => {
 
