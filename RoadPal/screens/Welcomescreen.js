@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Animated, Image, Dimensions, SafeAreaView, Platform, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, Animated, Image, Dimensions } from 'react-native'
 import React from 'react'
 import CustomButton from '../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'

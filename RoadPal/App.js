@@ -1,7 +1,78 @@
-import Navigation from './Navigation/Navigation'; 
+import 'react-native-gesture-handler';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import AuthContextProvider, { AuthContext } from './store/auth-context';
+import { useContext, useEffect } from 'react';
+
+import LogInScreen from './screens/LogInScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
+import BottomNavigation from './Navigation/BottomNavigation';
+import Welcomescreen from './screens/Welcomescreen';
+import Validation from './screens/Validation';
+import ComfirmPasswordReset from './screens/ComfirmPasswordReset';
+
+const Stack = createNativeStackNavigator();
+
+function AuthStack() {
+  return(
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Welcomescreen" component={Welcomescreen} />  
+      <Stack.Screen name="LogIn" component={LogInScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+      <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+      <Stack.Screen name="Validation" component={Validation} />
+      <Stack.Screen name="ComfirmPassword" component={ComfirmPasswordReset} />
+    </Stack.Navigator>
+  );
+}
+
+function AuthenticatedStack() {
+  return(
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
+    </Stack.Navigator>
+  );
+}
+
+function Navigation() {
+  const authCtx = useContext(AuthContext)
+
+  return(
+    <NavigationContainer>
+      {!authCtx.isAuthenticated && <AuthStack />}
+      {authCtx.isAuthenticated && <AuthenticatedStack />}
+    </NavigationContainer>
+  );
+}
+
+function Root() {
+  const authCtx = useContext(AuthContext)
+
+  useEffect(() => {
+    async function fetchToken() {
+      const storedToken = await AsyncStorage.getItem('token')
+
+      if (storedToken) {
+        authCtx.authenticate(storedToken) 
+      }
+    }
+
+    fetchToken()
+  }, [])
+
+  return <Navigation />
+}
 
 export default function App() {
+
   return (
-    <Navigation />
+    <AuthContextProvider>
+      <Root />
+    </AuthContextProvider>
   );
 }

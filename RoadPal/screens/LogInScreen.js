@@ -1,28 +1,69 @@
-import React, {useState} from 'react';
-import { Text, View, Image, StyleSheet, useWindowDimensions, ScrollView, Dimensions, Platform, StatusBar } from 'react-native';
+import React, {useContext, useState} from 'react';
+import { Text, View, Image, StyleSheet, ScrollView, Platform, StatusBar, Alert } from 'react-native';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { useNavigation } from '@react-navigation/native'; 
 import Logo from '../assets/Logo.png'
 import { LinearGradient } from 'expo-linear-gradient';
-
-const {width, height} = Dimensions.get('screen')
+import { loginUser } from '../util/auth';
+import LoadingOverlay from '../components/LoadingOverlay';
+import { AuthContext } from '../store/auth-context';
 
 const LogInScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const {height} = useWindowDimensions();
     const navigation = useNavigation();
 
-    const onLogInPress = () => {
-       //validate user
+    const authCtx = useContext(AuthContext);
 
-       navigation.navigate('BottomNavigation');
-    };
+    function updateInputValueHandler(inputType, enteredValue) {
+      switch (inputType) {
+        case 'email':
+          setEmail(enteredValue);
+        break;
+        case 'password':
+          setPassword(enteredValue);
+        break;
+      }
+    }
+
+    const [isAuthenticating, setIsAuthenticating] = useState(false);
+  
+    async function signInHandler() {
+      setIsAuthenticating(true)
+      try {
+        const  token = await loginUser(email, password)
+        authCtx.authenticate(token)
+      } catch (error){
+        Alert.alert(
+          'Authentication failed!',
+          'Could not log you in. Please check your credentials or try again later!'
+        )
+        setIsAuthenticating(false)
+      }
+  
+      if (isAuthenticating) {
+        return <LoadingOverlay />
+      }
+
+      setEmail('')
+      setPassword('')
+    }
+  
+    function submitHandler(){
+      const emailIsValid = email.includes('@gmail.com');
+      const passwordIsValid = password.length > 7;
+  
+      if ( !emailIsValid || !passwordIsValid ) {
+        Alert.alert('Invalid input', 'Please check your entered credentials.');
+        return;
+      }
+      signInHandler()
+    }
 
     const onForgotPasswordPress = () => { 
-        navigation.navigate('ForgotPassword');
+      navigation.navigate('ForgotPassword');
     };
 
     const onSignUpPress = () => {
@@ -46,13 +87,13 @@ const LogInScreen = () => {
 
             <View style={styles.container_2}>
               <Text style={styles.input_text}>Email Address</Text>
-              <CustomInput placeholder="email@gmail.com" value={email} setValue={setEmail} />
+              <CustomInput placeholder="email@gmail.com" value={email} setValue={updateInputValueHandler.bind(this, 'email')} />
               <Text style={styles.input_text}>Password</Text>
-              <CustomInput  placeholder="*********" value={password} setValue={setPassword}secureTextEntry={true} />
+              <CustomInput  placeholder="*********" value={password} setValue={updateInputValueHandler.bind(this, 'password')}secureTextEntry={true} />
             </View>
         
             <View style={styles.container_3}>
-              <CustomButton text="Log In" onPress={onLogInPress} />
+              <CustomButton text="Log In" onPress={submitHandler} />
               <CustomButton text="Forgot password?" onPress={onForgotPasswordPress} type="Tertiary"/>
               <View style={styles.special}>
                 <Text style={styles.special_2}>Don't have an account?</Text>
@@ -68,7 +109,6 @@ const LogInScreen = () => {
 
   const styles = StyleSheet.create({
     home: {
-      height: height,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
     show:{

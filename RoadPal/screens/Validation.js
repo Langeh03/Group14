@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import { Icon } from 'react-native-elements'
 import CustomButton from '../components/CustomButton'
 import { useNavigation } from '@react-navigation/native'
-import OTPTextIput from 'react-native-otp-textinput'
+import OTPTextInput from 'react-native-otp-textinput'
 
 const {width, height} = Dimensions.get('screen')
 
@@ -32,7 +32,7 @@ const Validation = () => {
                 <Text style={{fontSize: 16, width: '100%', marginTop: 20, fontWeight: 'black', color: '#4D4C4C'}}>We sent you a code to verify your</Text>
                 <Text style={{fontSize: 16, width: '100%', fontWeight: 'black', color: '#4D4C4C'}}>email.</Text>
                 <Text style={styles.input_text}>Enter your OTP code here</Text>
-                <OTPTextIput
+                <OTPTextInput
                     textInputStyle={{
                         borderWidth: 1,
                         borderBottomWidth: 1,
