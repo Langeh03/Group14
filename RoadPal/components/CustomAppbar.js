@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   leadingIcon: {
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
   },
   title: {
     flex: 1,

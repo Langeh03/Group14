@@ -14,6 +14,7 @@ import BottomNavigation from './Navigation/BottomNavigation';
 import Welcomescreen from './screens/Welcomescreen';
 import Validation from './screens/Validation';
 import ComfirmPasswordReset from './screens/ComfirmPasswordReset';
+import RoadSigns from "./screens/RoadSign";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ function AuthenticatedStack() {
   return(
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
+      <Stack.Screen name="RoadSigns" component={RoadSigns} />
     </Stack.Navigator>
   );
 }
