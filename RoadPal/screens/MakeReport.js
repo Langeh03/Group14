@@ -105,6 +105,10 @@ const MakeReport = ({ navigation }) => {
   const handleMapPress = (event) => {
     if (!useCurrentLocation) {
       setMarker(event.nativeEvent.coordinate);
+      Alert.alert(
+        "Custom Marker Set",
+        "Please confirm the marker location by clicking the 'Confirm Marker Location' button."
+      );
     }
   };
 
@@ -206,7 +210,7 @@ const MakeReport = ({ navigation }) => {
               // Submit report data to Firestore
               await firebase.firestore().collection("reports").add(reportData);
               Alert.alert("Success", "Report submitted successfully.");
-              navigation.navigate("Reports");
+              // navigation.navigate("Reports");
             } catch (error) {
               Alert.alert("Error submitting report:", error.message);
             }
@@ -279,7 +283,7 @@ const MakeReport = ({ navigation }) => {
             >
               {marker && <Marker coordinate={marker} />}
             </MapView>
-            {!useCurrentLocation && (
+            {!useCurrentLocation && marker && (
               <TouchableOpacity
                 style={styles.confirmButton}
                 onPress={confirmCustomLocation}
@@ -359,7 +363,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
-    backgroundColor: '#FDFDFD',
+    backgroundColor: "#FDFDFD",
   },
   locationButtonsContainer: {
     flexDirection: "row",
