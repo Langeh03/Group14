@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Platform, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
@@ -7,6 +7,8 @@ import { getCurrentPositionAsync, PermissionStatus, useForegroundPermissions } f
 import { Alert } from "react-native"
 import { useDispatch } from 'react-redux';
 import { setOrigin } from '../slices/navSlice';
+import * as Notifications from 'expo-notifications'
+import { AuthContext } from '../store/auth-context'
 
 const data = [
   {
@@ -35,6 +37,8 @@ const HomeScreen = () => {
     
   const dispatch = useDispatch();
 
+  const authCtx = useContext(AuthContext);
+
   const [locationPermissionInformation, requestPermission] = useForegroundPermissions()
 
   async function verifyPermissions() {
@@ -52,22 +56,30 @@ const HomeScreen = () => {
       
       return false
     }
-}
-
-async function getLocationHandler() {
-  const hasPermission = await verifyPermissions()
-  
-  if (hasPermission){
-    return
   }
 
-  const location = await getCurrentPositionAsync();
-  dispatch(setOrigin({
-    location: location.coords,
-    description: location.coords
-  }))
-  console.log(location)
-}
+  async function getLocationHandler() {
+    const hasPermission = await verifyPermissions()
+    
+    if (hasPermission){
+      return
+    }
+
+    const location = await getCurrentPositionAsync();
+    dispatch(setOrigin({
+      location: location.coords,
+      description: location.coords
+    }))
+  }
+
+  function scheduleNotificationHandler() {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Road State",
+        body: "This is a notification"
+      }
+    })
+  }
 
   return (
     <LinearGradient style={styles.home} colors={["#ffffff", "#AAF0E5"]}>
@@ -86,7 +98,10 @@ async function getLocationHandler() {
             renderItem={({ item }) => {
                 return (
                   <TouchableOpacity 
-                    onPress={() => navigation.navigate(item.screen)}
+                    onPress={() => {
+                      getLocationHandler()
+                      navigation.navigate(item.screen)
+                    }}
                     style={styles.container}>
                     <Text style={styles.heading}>{item.title}</Text>
                     <View style={{flex: 1,}}>
@@ -102,7 +117,7 @@ async function getLocationHandler() {
               <View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                   <Text style={styles.logo}>RoadPal</Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={authCtx.logout} >
                     <Image 
                       style={{width: 50, height: 50, resizeMode: 'cover', borderRadius: 50}}
                       source={require('../assets/user.jpg')}
@@ -119,7 +134,7 @@ async function getLocationHandler() {
             ListFooterComponent={() => (
                 <View>
                   <Text style={{fontSize: 25, fontWeight: 'bold'}}>Saved Route</Text>
-                  <TouchableOpacity style={{flexDirection: 'row', marginVertical: 15}} onPress={getLocationHandler}>
+                  <TouchableOpacity style={{flexDirection: 'row', marginVertical: 15}} onPress={() => navigation.navigate('SavedDestinations')}>
                     <Icon style={styles.icon} name='star' type='ionicon' color='#fff' size={18}/>
                     <View>
                         <Text style={{paddingVertical: 10, fontWeight: '700'}}>View Saved Destinations</Text>

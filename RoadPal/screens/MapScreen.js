@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Maps from '../components/Maps'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useDispatch } from 'react-redux';
 import { setDestination } from '../slices/navSlice';
 import { useNavigation } from '@react-navigation/native';
+import { Icon } from 'react-native-elements';
 
 const MapScreen = () => {
 
@@ -48,7 +49,18 @@ const MapScreen = () => {
               />
           </View>
           <View style={{paddingHorizontal: 20}}>
-            <NavFavourites />
+                  <TouchableOpacity style={{flexDirection: 'row', marginVertical: 15}} onPress={() => navigation.navigate('SavedDestinations')}>
+                    <Icon style={styles.icon} name='star' type='ionicon' color='#fff' size={18}/>
+                    <View>
+                        <Text style={{paddingVertical: 10, fontWeight: '700'}}>View Saved Destinations</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate('AddDestinations')}>
+                    <Icon style={styles.icon} name='add' type='ionicon' color='#fff' size={18}/>
+                    <View style={{marginBottom: 50}} >
+                        <Text style={{paddingVertical: 10, fontWeight: '700'}}>Add Saved Destinations</Text>
+                    </View>
+                  </TouchableOpacity>
           </View>
         </View>
       </LinearGradient>
@@ -68,6 +80,14 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     //backgroundColor: "#fff",
     overflow: 'scroll'
+  },
+  icon: {
+    marginRight: 15,
+    borderRadius: 50,
+    backgroundColor: '#18776F',
+    paddingVertical: 10,
+    height: 40,
+    width: 40
   },
   message: {
     textAlign: "center",
