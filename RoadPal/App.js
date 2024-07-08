@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import { useContext, useEffect } from 'react';
 
+import SplashScreen from './screens/Splash';
 import LogInScreen from './screens/LogInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
@@ -20,7 +21,8 @@ const Stack = createNativeStackNavigator();
 
 function AuthStack() {
   return(
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Splashscreen" component={SplashScreen} />
       <Stack.Screen name="Welcomescreen" component={Welcomescreen} />  
       <Stack.Screen name="LogIn" component={LogInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />

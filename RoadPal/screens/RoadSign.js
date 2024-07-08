@@ -17,6 +17,7 @@ import { firebase } from "../config";
 
 const RoadSigns = ({ navigation }) => {
   const [roadSigns, setRoadSigns] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchRoadSigns = async () => {
     try {
@@ -27,8 +28,8 @@ const RoadSigns = ({ navigation }) => {
           const { name, image, description } = doc.data();
           fetchedRoadSigns.push({ id: doc.id, image, name, description });
         });
-          setRoadSigns(fetchedRoadSigns);
-        
+        setRoadSigns(fetchedRoadSigns);
+        setLoading(false);
       });
     } catch (error) {
       alert(error.message);
@@ -55,9 +56,7 @@ const RoadSigns = ({ navigation }) => {
                 <Image style={styles.icon} source={{ uri: image }} />
                 <View style={styles.description}>
                   <Text style={{ fontWeight: "700" }}>{name}</Text>
-                  <Text style={{ color: "gray", }}>
-                    {description}
-                  </Text>
+                  <Text style={{ color: "gray" }}>{description}</Text>
                 </View>
               </TouchableOpacity>
             );
@@ -72,25 +71,24 @@ const RoadSigns = ({ navigation }) => {
               />
               <View style={styles.headerContent}>
                 <Image
-                  source={require("../assets/happy-man.png") }
+                  source={require("../assets/happy-man.png")}
                   style={styles.headerImage}
                 />
                 <View>
                   <Text style={styles.logo}>Know your Signs</Text>
-                 
-                      </View>
-                   
-                  </View>
-                  <Text style={styles.explanation}>
-                    Ready to hit the road with confidence? Buckle up and
-                    discover the meaning behind the signs that guide your
-                    journey!
-                  </Text>
+                </View>
+              </View>
+              <Text style={styles.explanation}>
+                Ready to hit the road with confidence? Buckle up and discover
+                the meaning behind the signs that guide your journey!
+              </Text>
             </View>
           )}
           ListFooterComponent={() => (
-            <View style={{ marginBottom: 50, marginTop: 50}}>
-              <Text style={styles.reportText}>Hope this was helpful...</Text>
+            <View style={{ marginBottom: 50, marginTop: 50 }}>
+              <Text style={styles.reportText}>
+                {loading ? "Loading..." : "Hope this was helpful..."}
+              </Text>
             </View>
           )}
         />
@@ -110,10 +108,10 @@ const styles = StyleSheet.create({
   explanation: {
     paddingBottom: 20,
     paddingTop: 20,
-    },
-    description: {
-        marginRight: 10, 
-        paddingEnd: 10,
+  },
+  description: {
+    marginRight: 10,
+    paddingEnd: 10,
   },
   wrappernt: {
     width: 330,
@@ -122,7 +120,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     flexDirection: "row",
-    // paddingLeft: 10,
   },
   icon: {
     marginRight: 15,
