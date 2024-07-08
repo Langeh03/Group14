@@ -20,7 +20,6 @@ import ComfirmPasswordReset from './screens/ComfirmPasswordReset';
 
 import SavedDestinations from './screens/SavedDestinations';
 import AddSavedDestination from './screens/AddSavedDestination';
-
 import RoadSigns from "./screens/RoadSign";
 
 const Stack = createNativeStackNavigator();
