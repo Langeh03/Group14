@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import { useContext, useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 import LogInScreen from './screens/LogInScreen';
 import SignUpScreen from './screens/SignUpScreen';
@@ -14,6 +16,8 @@ import BottomNavigation from './Navigation/BottomNavigation';
 import Welcomescreen from './screens/Welcomescreen';
 import Validation from './screens/Validation';
 import ComfirmPasswordReset from './screens/ComfirmPasswordReset';
+import SavedDestinations from './screens/SavedDestinations';
+import AddSavedDestination from './screens/AddSavedDestination';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +39,8 @@ function AuthenticatedStack() {
   return(
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
+      <Stack.Screen name="SavedDestinations" component={SavedDestinations} />
+      <Stack.Screen name="AddDestinations" component={AddSavedDestination} />
     </Stack.Navigator>
   );
 }
@@ -71,8 +77,10 @@ function Root() {
 export default function App() {
 
   return (
-    <AuthContextProvider>
-      <Root />
-    </AuthContextProvider>
+    <Provider store={store}>
+      <AuthContextProvider>
+        <Root />
+      </AuthContextProvider>
+    </Provider>
   );
 }

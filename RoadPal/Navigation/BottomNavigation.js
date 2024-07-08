@@ -3,10 +3,13 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements'
 import MapScreen from '../screens/MapScreen';
+import MainMapScreen from '../screens/MainMapScreen';
 import HomeScreen from '../screens/HomeScreen';
 import NotificationScreen from '../screens/NotificationScreen'
 import MakeReport from '../screens/MakeReport'
 import Reports from '../screens/Reports'
+import { useSelector } from 'react-redux';
+import { selectDestination } from '../slices/navSlice';
 
 const BottomNavigation = () => {
 
@@ -17,6 +20,17 @@ const BottomNavigation = () => {
     const makeReportScreen = "Report"
 
     const Tab = createBottomTabNavigator();
+
+    const destination = useSelector(selectDestination)
+
+    function Map() {
+        if (!destination) {
+            return <MapScreen />
+        }
+        if (destination) {
+            return <MainMapScreen />
+        }
+    }
 
   return (
         <Tab.Navigator
@@ -44,7 +58,7 @@ const BottomNavigation = () => {
         >
             <Tab.Screen name={homeScreen} component={HomeScreen} options={{headerShown: false}}/>
             <Tab.Screen name={notificationScreen} component={NotificationScreen} options={{headerShown: false}}/>
-            <Tab.Screen name={travelScreen} component={MapScreen} options={{headerShown: false}}/>
+            <Tab.Screen name={travelScreen} component={Map} options={{headerShown: false}}/>
             <Tab.Screen name={makeReportScreen} component={MakeReport} options={{headerShown: false}}/>
             <Tab.Screen name={viewReportScreen} component={Reports} options={{headerShown: false}}/>
         </Tab.Navigator>

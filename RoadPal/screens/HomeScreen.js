@@ -1,9 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity, FlatList, Image, Platform, StatusBar } from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import NavFavourites from '../components/NavFavourites'
 import { Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
+import { getCurrentPositionAsync, PermissionStatus, useForegroundPermissions } from "expo-location"
+import { Alert } from "react-native"
+import { useDispatch } from 'react-redux';
+import { setOrigin } from '../slices/navSlice';
 
 const data = [
   {
@@ -20,7 +23,7 @@ const data = [
   },
   {
     id: "3",
-    title: "Road Signs",
+    title: "Get Educated",
     image: "",
     screen: "Map",
   },
@@ -29,6 +32,42 @@ const data = [
 const HomeScreen = () => {
 
   const  navigation = useNavigation();
+    
+  const dispatch = useDispatch();
+
+  const [locationPermissionInformation, requestPermission] = useForegroundPermissions()
+
+  async function verifyPermissions() {
+    if (locationPermissionInformation.status === PermissionStatus.UNDETERMINED) {
+      const permissionResponse = await requestPermission()
+
+      return permissionResponse.granted
+    }
+
+    if (locationPermissionInformation.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        'Insufficient Permissions!',
+        'You need to grant location permissions to use this app.'
+      )
+      
+      return false
+    }
+}
+
+async function getLocationHandler() {
+  const hasPermission = await verifyPermissions()
+  
+  if (hasPermission){
+    return
+  }
+
+  const location = await getCurrentPositionAsync();
+  dispatch(setOrigin({
+    location: location.coords,
+    description: location.coords
+  }))
+  console.log(location)
+}
 
   return (
     <LinearGradient style={styles.home} colors={["#ffffff", "#AAF0E5"]}>
@@ -41,7 +80,7 @@ const HomeScreen = () => {
             numColumns={2}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => (
-                <View style={{height: 10, width: 10}} />
+              <View style={{height: 10, width: 10}} />
             )}
             style={{}}
             renderItem={({ item }) => {
@@ -52,8 +91,8 @@ const HomeScreen = () => {
                     <Text style={styles.heading}>{item.title}</Text>
                     <View style={{flex: 1,}}>
                         <Image 
-                            style={{width: 100, height: 100, resizeMode: 'contain', marginTop: -30, marginLeft: -20}}
-                            source={require('../assets/car.webp')} 
+                          style={{width: 100, height: 100, resizeMode: 'contain', marginTop: -30, marginLeft: -20}}
+                          source={require('../assets/car.webp')} 
                         />
                     </View>
                   </TouchableOpacity>
@@ -80,11 +119,16 @@ const HomeScreen = () => {
             ListFooterComponent={() => (
                 <View>
                   <Text style={{fontSize: 25, fontWeight: 'bold'}}>Saved Route</Text>
-                  <NavFavourites />
-                  <TouchableOpacity style={{flexDirection: 'row'}}>
+                  <TouchableOpacity style={{flexDirection: 'row', marginVertical: 15}} onPress={getLocationHandler}>
                     <Icon style={styles.icon} name='star' type='ionicon' color='#fff' size={18}/>
-                    <View style={{marginBottom: 50}} >
+                    <View>
                         <Text style={{paddingVertical: 10, fontWeight: '700'}}>View Saved Destinations</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{flexDirection: 'row'}} onPress={() => navigation.navigate('AddDestinations')}>
+                    <Icon style={styles.icon} name='add' type='ionicon' color='#fff' size={18}/>
+                    <View style={{marginBottom: 50}} >
+                        <Text style={{paddingVertical: 10, fontWeight: '700'}}>Add Saved Destinations</Text>
                     </View>
                   </TouchableOpacity>
                 </View>

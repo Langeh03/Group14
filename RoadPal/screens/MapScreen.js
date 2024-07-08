@@ -1,15 +1,19 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Maps from '../components/Maps'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GOOGLE_MAPS_APIKEY } from "@env"
 import NavFavourites from '../components/NavFavourites';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useDispatch } from 'react-redux';
+import { setDestination } from '../slices/navSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const MapScreen = () => {
 
-    const Stack = createNativeStackNavigator()
+  const  navigation = useNavigation();
     
+  const dispatch = useDispatch();
 
   return (
     <View style={{ height: '100%'}}>
@@ -22,8 +26,25 @@ const MapScreen = () => {
           <Text style={styles.message}>Hello There!</Text>
           <View style={styles.inputWrapper}>
               <GooglePlacesAutocomplete 
-                  placeholder='Where to?'
-                  styles={styles}
+                placeholder='Where to?'
+                styles={styles}
+                onPress={(data, details = null) => {
+                  dispatch(setDestination({
+                    location: details.geometry.location,
+                    description: data.description
+                  }))
+                  navigation.navigate('Map')
+                }}
+                fetchDetails={true}
+                returnKeyType={'search'}
+                minLength={2}
+                enablePoweredByContainer={false}
+                query={{
+                  key: GOOGLE_MAPS_APIKEY,
+                  language: 'en'
+                }}
+                nearbyPlacesAPI='GooglePlacesSearch'
+                debounce={400}
               />
           </View>
           <View style={{paddingHorizontal: 20}}>
@@ -53,14 +74,16 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0"
+    borderBottomColor: "#E0E0E0",
+    fontWeight: 'black',
+    fontSize: 17
   },
   textInputContainer: {
     paddingHorizontal: 20,
     marginVertical: 13,
   },
   textInput: {
-    backgroundColor: "#E0E0E0",
+    backgroundColor: "#E5F7F4",
     borderRadius: 8,
   }
 })
